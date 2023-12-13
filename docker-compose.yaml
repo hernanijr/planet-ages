@@ -1,10 +1,18 @@
 version: '3'
 services:
   app:
+    container_name: planet-ages-app
     build:
       context: .
-      dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
       - .:/usr/src/app
+    command: npm start
+  test:
+    container_name: planet-ages-test
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+    command: npm test
