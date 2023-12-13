@@ -15,10 +15,11 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/calculate-age (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/calculate-age')
+      .query({ seconds: 2500000000, type: 'Venus' })
       .expect(200)
-      .expect('Hello World!');
+      .expect('48.74 Venus-years-old');
   });
 });
