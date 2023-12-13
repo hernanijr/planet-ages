@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 
 describe('AppController', () => {
   let controller: AppController;
@@ -35,10 +36,17 @@ describe('AppController', () => {
 
     it('should handle errors thrown by service', () => {
       jest.spyOn(service, 'calculateAge').mockImplementation(() => {
-        throw new Error('Invalid input');
+        throw new BadRequestException('Invalid input', {
+          cause: new Error(),
+          description: 'Please provide valid seconds and planet type.',
+        });
       });
+
       expect(() => controller.calculateAge(-100, 'earth')).toThrow(
-        'Invalid input',
+        new BadRequestException('Invalid input', {
+          cause: new Error(),
+          description: 'Please provide valid seconds and planet type.',
+        }),
       );
     });
   });

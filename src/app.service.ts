@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
@@ -20,7 +20,10 @@ export class AppService {
         (planet) => planet.name.toLowerCase() === type.toLowerCase(),
       )
     ) {
-      throw new Error('Invalid input');
+      throw new BadRequestException('Invalid input', {
+        cause: new Error(),
+        description: 'Please provide valid seconds and planet type.',
+      });
     }
 
     const earthYears = seconds / 60 / 60 / 24 / 365.25;
